@@ -29,21 +29,21 @@ public class MyConfig: Config, IMyConfig
     public DateTime WhenToShutdown { get { return Get<DateTime>(); } }
     
     public MyConfig(string[] arguments)
-    : base(
-        new DictionaryCache(),
-        new AggregateSource(
-            new CommandLineParserSource<Options>(arguments)
-            new EnvironmentVariableSource(),
-            new FileSource(),
-            new ConnectionStringsSource(),
-            new AppSettingSource(),
-            new EmbeddedResourceSource(),
-            new DefaultValueAttributeSource()
-        ),
-        new AggregateTransformer(),
-        new AggregateValidator(),
-        new AggregateCoercer()
-    )
+        : base(
+            new DictionaryCache(),
+            new AggregateSource(
+                new CommandLineParserSource<Options>(arguments),
+                new EnvironmentVariableSource(),
+                new FileSource(),
+                new ConnectionStringsSource(),
+                new AppSettingSource(),
+                new EmbeddedResourceSource(),
+                new DefaultValueAttributeSource()
+            ),
+            new AggregateTransformer(),
+            new AggregateValidator(),
+            new AggregateCoercer()
+        )
     {
     }
 }
