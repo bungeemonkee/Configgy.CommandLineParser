@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using CommandLine;
 using Configgy.CommandLineParser.Source;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -13,6 +15,26 @@ namespace Configgy.CommandLineParser.Tests.Unit.Source
         {
             var arguments = new string[0];
             var source = new CommandLineParserSource<object>(arguments);
+
+            Assert.IsNotNull(source.Options);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void Constructor_With_Arguments_Throws_Exception_When_Checking_Invalid_Arguments()
+        {
+            var arguments = new[] { "--owiejfowijef29ijefpowiejfpo2ijf" };
+            var source = new CommandLineParserSource<object>(arguments);
+
+            Assert.IsNotNull(source.Options);
+        }
+
+        [TestMethod]
+        public void Constructor_With_Arguments_Does_Not_Throw_Exception_When_Checking_Invalid_Arguments_But_IgnoreUnknownArguments_Is_Set()
+        {
+            var arguments = new[] { "--owiejfowijef29ijefpowiejfpo2ijf" };
+            var parser = new Parser(p => { p.IgnoreUnknownArguments = true; });
+            var source = new CommandLineParserSource<object>(arguments, parser);
 
             Assert.IsNotNull(source.Options);
         }

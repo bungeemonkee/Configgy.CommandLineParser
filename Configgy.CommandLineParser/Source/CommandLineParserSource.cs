@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using CommandLine;
 using Configgy.Source;
 
@@ -32,7 +33,8 @@ namespace Configgy.CommandLineParser.Source
         public CommandLineParserSource(string[] arguments, Parser parser)
         {
             Options = new T();
-            parser.ParseArguments(arguments, Options);
+            if (parser.ParseArguments(arguments, Options)) return;
+            throw new ArgumentException("Unrecognized command line option.");
         }
 
         /// <summary>
